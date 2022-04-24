@@ -1,0 +1,61 @@
+﻿@model List<Desafio_vs.Models.ViewModel.VistaReuniones>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Invitar usuarios</h2>
+<div class="row">
+    <div class="row">
+        <h2>Reuniones creadas</h2>
+        <table>
+            <tr>
+                <th>Titulo</th>
+                <th>Descripcion</th>
+                <th>Fecha</th>
+                <th>Acción</th>
+            </tr>
+            @foreach (var r in Model)
+            {
+                <tr>
+                    <td>@r.titulo</td>
+                    <td>@r.descripcion</td>
+                    <td>@r.fecha</td>
+                    <td><input type="submit" onclick="funcion(@r.id)" class="btn btn-success" value="Invitar personas" /></td>
+                </tr>
+            }
+        </table>
+    </div>
+    <form id="frm" style="display:none">
+        <div>
+            Correo
+            <input type="text" name="correo" value=""/>
+            <input type="text" id="id_" name="id_" style="display:none"/>
+            <input type="submit" id="0" name="grabar_invitacion" class="btn btn-success" value="Entrar" />
+        </div>
+    </form>
+</div>
+
+@section scripts
+{
+    <script>
+        function funcion(valor) {
+            $("#frm")[0].style.display = "block";
+            $("#id_").attr("value", valor);
+        }
+        $(document).ready(function () {
+            $("#frm").submit(function (e) {
+            e.preventDefault();
+            URL="@Url.Content("~/Invitar/Grabar")";
+            parametros = $(this).serialize();
+            $.post(URL, parametros, function (data) {
+                if (data == "1"){
+                    document.location.href = "@Url.Content("~/")"
+                }else{
+                    alert(data);
+                }
+            })
+            })
+    })
+    </script>
+}
